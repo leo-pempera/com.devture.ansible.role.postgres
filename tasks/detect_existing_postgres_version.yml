@@ -38,42 +38,7 @@
     devture_postgres_detected_version_corresponding_docker_image: "{{ devture_postgres_container_image_latest }}"
   when: "devture_postgres_detected_version != ''"
 
-- name: Determine corresponding container image to detected version (use 9.x, if detected)
+- name: Determine corresponding container image to detected version string
   ansible.builtin.set_fact:
-    devture_postgres_detected_version_corresponding_docker_image: "{{ devture_postgres_container_image_v9 }}"
-  when: "devture_postgres_detected_version.startswith('9.')"
-
-- name: Determine corresponding container image to detected version (use 10.x, if detected)
-  ansible.builtin.set_fact:
-    devture_postgres_detected_version_corresponding_docker_image: "{{ devture_postgres_container_image_v10 }}"
-  when: "devture_postgres_detected_version == '10' or devture_postgres_detected_version.startswith('10.')"
-
-- name: Determine corresponding container image to detected version (use 11.x, if detected)
-  ansible.builtin.set_fact:
-    devture_postgres_detected_version_corresponding_docker_image: "{{ devture_postgres_container_image_v11 }}"
-  when: "devture_postgres_detected_version == '11' or devture_postgres_detected_version.startswith('11.')"
-
-- name: Determine corresponding container image to detected version (use 12.x, if detected)
-  ansible.builtin.set_fact:
-    devture_postgres_detected_version_corresponding_docker_image: "{{ devture_postgres_container_image_v12 }}"
-  when: "devture_postgres_detected_version == '12' or devture_postgres_detected_version.startswith('12.')"
-
-- name: Determine corresponding container image to detected version (use 13.x, if detected)
-  ansible.builtin.set_fact:
-    devture_postgres_detected_version_corresponding_docker_image: "{{ devture_postgres_container_image_v13 }}"
-  when: "devture_postgres_detected_version == '13' or devture_postgres_detected_version.startswith('13.')"
-
-- name: Determine corresponding container image to detected version (use 14.x, if detected)
-  ansible.builtin.set_fact:
-    devture_postgres_detected_version_corresponding_docker_image: "{{ devture_postgres_container_image_v14 }}"
-  when: "devture_postgres_detected_version == '14' or devture_postgres_detected_version.startswith('14.')"
-
-- name: Determine corresponding container image to detected version (use 15.x, if detected)
-  ansible.builtin.set_fact:
-    devture_postgres_detected_version_corresponding_docker_image: "{{ devture_postgres_container_image_v15 }}"
-  when: "devture_postgres_detected_version == '15' or devture_postgres_detected_version.startswith('15.')"
-
-- name: Determine corresponding container image to detected version (use 16.x, if detected)
-  ansible.builtin.set_fact:
-    devture_postgres_detected_version_corresponding_docker_image: "{{ devture_postgres_container_image_v16 }}"
-  when: "devture_postgres_detected_version == '16' or devture_postgres_detected_version.startswith('16.')"
+    devture_postgres_detected_version_corresponding_docker_image: "{{ docker_postgres_container_image_registry_prefix }}postgres:{{ devture_postgres_detected_version }}-alpine"
+  when: devture_postgres_detected_version is regex("^([0-9]{1,2}\.[0-9]|[0-9]{1,2})$")
